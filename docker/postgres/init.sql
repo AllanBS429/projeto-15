@@ -1,18 +1,20 @@
--- Extensão para UUID
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Role de aplicação
-DO
-$$
+CREATE EXTENSION IF NOT EXISTS "pg_stat_statements";
+
+DO $$
 BEGIN
-   IF NOT EXISTS (
-      SELECT FROM pg_roles WHERE rolname = 'senac'
-   ) THEN
-      CREATE ROLE senac LOGIN PASSWORD 'senac';
-   END IF;
+  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'senac') THEN
+    CREATE ROLE senac LOGIN PASSWORD 'senac';
+  END IF;
 END
 $$;
 
--- Bancos adicionais
-CREATE DATABASE testing_db OWNER senac;
-CREATE DATABASE production_db OWNER senac;
+CREATE DATABASE development_db
+  OWNER senac;
+
+CREATE DATABASE testing_db
+  OWNER senac;
+
+CREATE DATABASE production_db
+  OWNER senac;
